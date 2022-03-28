@@ -2,13 +2,15 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 
-export default function MinHeightTextarea({ label, placeholder, style, row }) {
+export default function MinHeightTextarea({ label, placeholder, style, row, textInput, setTextInput }) {
     return (
         <TextareaAutosize
             aria-label={label}
             minRows={row}
             placeholder={placeholder}
             style={style}
+            value={textInput}
+            onChange={(e) => setTextInput(e.target.value)}
         />
     );
 }
