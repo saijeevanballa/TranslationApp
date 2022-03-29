@@ -1,11 +1,13 @@
-import ResponsiveAppBar from "./components/navbar/navbar"
+import NavBar from "./components/navbar/navbar"
 import Dashboard from "./views/dashboard"
+import Footer from "./components/footer/footer"
 
 function App() {
   return (
     <div>
-      <ResponsiveAppBar />
+      <NavBar />
       <Dashboard />
+      <Footer />
     </div>
   );
 }

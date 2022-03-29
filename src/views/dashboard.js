@@ -10,7 +10,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 
-import MinHeightTextarea from "../components/textArea/textArea";
+import TextArea from "../components/textArea/textArea";
 
 function Dashboard(props) {
     const [inputValue, setInputValue] = React.useState('plain');
@@ -26,7 +26,7 @@ function Dashboard(props) {
                 <Card variant="outlined" style={props.style} >{
                     <React.Fragment>
                         <CardContent sx={{ minWidth: "60%" }}>
-                            <MinHeightTextarea textInput={textInput} setTextInput={setTextInput} />
+                            <TextArea textInput={textInput} setTextInput={setTextInput} />
                             <FormControl>
                                 <RadioGroup
                                     row

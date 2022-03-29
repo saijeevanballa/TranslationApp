@@ -11,7 +11,7 @@ import Container from '@mui/material/Container';
 import MenuItem from '@mui/material/MenuItem';
 
 
-const ResponsiveAppBar = (props) => {
+const NavBar = (props) => {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
 
     const handleOpenNavMenu = (event) => {
@@ -76,14 +76,14 @@ const ResponsiveAppBar = (props) => {
     );
 };
 
-ResponsiveAppBar.propTypes = {
+NavBar.propTypes = {
     title: PropTypes.string.isRequired,
     pages: PropTypes.array,
     navStyle: PropTypes.object,
     row: PropTypes.number
 }
 
-ResponsiveAppBar.defaultProps = {
+NavBar.defaultProps = {
     title: "Translator",
     pages: ['AI Translation', 'File Translation', 'Number Translation'],
     navStyle: {
@@ -93,4 +93,4 @@ ResponsiveAppBar.defaultProps = {
 
 }
 
-export default ResponsiveAppBar;
+export default NavBar;

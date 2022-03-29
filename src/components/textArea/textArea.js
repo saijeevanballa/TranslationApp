@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 
-export default function MinHeightTextarea({ label, placeholder, style, row, textInput, setTextInput }) {
+export default function TextArea({ label, placeholder, style, row, textInput, setTextInput }) {
     return (
         <TextareaAutosize
             aria-label={label}
@@ -15,14 +15,14 @@ export default function MinHeightTextarea({ label, placeholder, style, row, text
     );
 }
 
-MinHeightTextarea.propTypes = {
+TextArea.propTypes = {
     label: PropTypes.string.isRequired,
     placeholder: PropTypes.string.isRequired,
     style: PropTypes.object,
     row: PropTypes.number
 }
 
-MinHeightTextarea.defaultProps = {
+TextArea.defaultProps = {
     label: "Translate Text",
     placeholder: "Please enter your input",
     style: {
