@@ -4,13 +4,9 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import { connect } from "react-redux";
 import { toast } from 'react-toastify';
-import Radio from '@mui/material/Radio';
 import Button from '@mui/material/Button';
-import RadioGroup from '@mui/material/RadioGroup';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
 
 import Login from "./login"
 import { alertConst } from "../utils/constants"
@@ -18,8 +14,7 @@ import { setToken } from "../store/actions/auth"
 import BasicModal from "../components/model/model";
 import TextArea from "../components/textArea/textArea";
 
-function Dashboard(props) {
-    const [inputValue, setInputValue] = React.useState('plain');
+function AiBoard(props) {
     const [textInput, setTextInput] = React.useState('');
     const [tokenExist, setTokenExist] = React.useState(false);
 
@@ -52,17 +47,6 @@ function Dashboard(props) {
                         <BasicModal open={tokenExist}><Login handleSubmit={handleLoginSubmit} /></BasicModal>
                         <CardContent sx={{ minWidth: "60%" }}>
                             <TextArea textInput={textInput} setTextInput={setTextInput} />
-                            <FormControl>
-                                <RadioGroup
-                                    row
-                                    aria-labelledby="demo-row-radio-buttons-group-label"
-                                    name="row-radio-buttons-group"
-                                    value={inputValue}
-                                    onChange={(e) => setInputValue(e.target.value)}
-                                >
-                                    {props.inputs.map(input => <FormControlLabel key={input} value={input} control={<Radio />} label={input.toUpperCase()} />)}
-                                </RadioGroup>
-                            </FormControl>
                         </CardContent>
                         <CardActions>
                             <Button variant="outlined" size="medium" onClick={handleSubmit}>Submit</Button>
@@ -74,13 +58,11 @@ function Dashboard(props) {
     )
 }
 
-Dashboard.propTypes = {
+AiBoard.propTypes = {
     style: PropTypes.object,
-    inputs: PropTypes.array
 }
 
-Dashboard.defaultProps = {
-    inputs: ["plain", "json", "html", "android", "ios", "srt", "xamarin", "yaml"],
+AiBoard.defaultProps = {
     style: {
         display: "flex",
         alignItems: "center",
@@ -102,6 +84,6 @@ export default connect(
     }, {
     setToken
 }
-)(Dashboard);
+)(AiBoard);
 
 

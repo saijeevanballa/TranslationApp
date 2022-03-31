@@ -1,15 +1,20 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import AppBar from '@mui/material/AppBar';
+import { connect } from "react-redux"
 import Box from '@mui/material/Box';
+import Menu from '@mui/material/Menu';
+import AppBar from '@mui/material/AppBar';
+import Button from '@mui/material/Button';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import MenuItem from '@mui/material/MenuItem';
 
+import { removeToken } from "../../store/actions/auth"
+import { Link } from 'react-router-dom';
+import { anchorStyle } from '../../utils/constants';
 
 const NavBar = (props) => {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -56,20 +61,23 @@ const NavBar = (props) => {
                             }}
                         >
                             {props.pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">{page}</Typography>
+                                <MenuItem key={page.title} onClick={handleCloseNavMenu}>
+                                    <Link to={page.url} style={anchorStyle}><Typography textAlign="center">{page.title}</Typography></Link>
                                 </MenuItem>
                             ))}
                         </Menu>
                     </Box>
+
                     <Typography
                         variant="h6"
                         noWrap
                         component="div"
                         sx={{ flexGrow: 1, display: { xs: 'flex' } }}
                     >
-                        {props.title}
+                        <Link to="/" style={anchorStyle}>{props.title}</Link>
                     </Typography>
+
+                    {props.token && <Button color="error" variant="contained" style={{ borderRadius: "50px" }} onClick={props.removeToken} >Logout</Button>}
                 </Toolbar>
             </Container>
         </AppBar>
@@ -85,12 +93,20 @@ NavBar.propTypes = {
 
 NavBar.defaultProps = {
     title: "Translator",
-    pages: ['AI Translation', 'File Translation', 'Number Translation'],
+    pages: [
+        { title: 'AI Translation', url: "/AI" },
+        { title: 'File Translation', url: "/" },
+        { title: 'Number Translation', url: "/Number" }],
     navStyle: {
         borderRadius: "15px",
         boxShadow: `-15px -15px 15px rgba(255,255,255,0.2), 15px 15px 15px rgba(0,0,0,0.1)`
     }
-
 }
 
-export default NavBar;
+export default connect(
+    state => {
+        return { token: state.authentication.token };
+    }, {
+    removeToken
+})(NavBar);
+
