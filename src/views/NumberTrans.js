@@ -7,36 +7,61 @@ import { toast } from 'react-toastify';
 import Button from '@mui/material/Button';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 import Login from "./login"
-import { alertConst } from "../utils/constants"
+import { defaultTostStyle } from "../utils/constants"
 import { setToken } from "../store/actions/auth"
 import BasicModal from "../components/model/model";
 import TextArea from "../components/textArea/textArea";
-
+import Languages from "../store/data/languages.json"
+import Result from './result';
+import { fetchNumberTranslateAPI } from '../store/actions/api'
 function NumberTrans(props) {
     const [textInput, setTextInput] = React.useState('');
     const [tokenExist, setTokenExist] = React.useState(false);
+    const [selectedLanguage, setSelectedLanguage] = React.useState("");
+    const [resultExist, setResultExist] = React.useState({ open: false, value: "" });
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (!props.token || props.token.trim() === "") {
             return setTokenExist(true)
         }
-        toast("Successfully Translation Done", {
-            type: "success",
-            ...alertConst
-        });
+        if (!selectedLanguage || !textInput) {
+            return toast("Please fill all the details", {
+                type: "error",
+                ...defaultTostStyle
+            });
+        }
+        let response = await props.fetchNumberTranslateAPI({
+            data: textInput,
+            lan: selectedLanguage
+        })
+        if (response?.data) {
+            setResultExist({ open: true, value: response.data.data.translated })
+            toast("Successfully Translation Done", {
+                type: "success",
+                ...defaultTostStyle
+            });
+        }
     }
 
     let handleLoginSubmit = async (token) => {
         if (!token || token.length !== 50) {
             return toast("Enter valid Token", {
                 type: "error",
-                ...alertConst
+                ...defaultTostStyle
             });
         }
         props.setToken(token)
         setTokenExist(false)
+    }
+
+    let handleCloseResult = async () => {
+        setResultExist({ ...resultExist, open: false })
     }
 
     return (
@@ -44,9 +69,24 @@ function NumberTrans(props) {
             <Box sx={{ minWidth: 275 }}>
                 <Card variant="outlined" style={props.style} >{
                     <React.Fragment>
+                        <h1>Number Translator</h1>
+                        <BasicModal open={resultExist.open}><Result value={resultExist.value} handleSubmit={handleCloseResult} /></BasicModal>
                         <BasicModal open={tokenExist}><Login handleSubmit={handleLoginSubmit} /></BasicModal>
                         <CardContent sx={{ minWidth: "60%" }}>
-                            <TextArea textInput={textInput} setTextInput={setTextInput} />
+                            <TextArea textInput={textInput} row={1} setTextInput={setTextInput} />
+                            <FormControl style={{ marginTop: "20px" }} fullWidth>
+                                <InputLabel id="demo-simple-select-label">Language</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={selectedLanguage}
+                                    label="Language"
+                                    style={{ borderRadius: "15px" }}
+                                    onChange={e => setSelectedLanguage(e.target.value)}
+                                >
+                                    {Languages.map(lan => (<MenuItem key={lan.code} value={lan.code}>{lan.language}</MenuItem>))}
+                                </Select>
+                            </FormControl>
                         </CardContent>
                         <CardActions>
                             <Button variant="outlined" size="medium" onClick={handleSubmit}>Submit</Button>
@@ -82,7 +122,8 @@ export default connect(
     state => {
         return { token: state.authentication.token };
     }, {
-    setToken
+    setToken,
+    fetchNumberTranslateAPI
 }
 )(NumberTrans);
 

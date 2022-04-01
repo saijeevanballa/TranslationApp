@@ -5,7 +5,9 @@ import RootRouter from "./rootRouter"
 import { toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
+
 toast.configure();
+
 function App() {
   return (
     <Provider store={store}>
