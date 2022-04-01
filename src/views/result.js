@@ -11,6 +11,15 @@ function Result(props) {
     let onCopy = () => {
         toast("successfully copied.", { type: "success", ...defaultTostStyle })
     }
+
+    let onClickDownload = () => {
+        const element = document.createElement("a");
+        const file = new Blob([JSON.stringify(props.value)], { type: 'text/plain' });
+        element.href = URL.createObjectURL(file);
+        element.download = "Translator.txt";
+        document.body.appendChild(element); // Required for this to work in FireFox
+        element.click()
+    }
     return (
         <div style={{
             display: "flex",
@@ -34,9 +43,10 @@ function Result(props) {
                 <div>
 
                     <Button variant="outlined" size="small" onClick={() => props.handleSubmit()}>close</Button>
-                    <CopyToClipboard text={props.value} onCopy={onCopy} style={{ marginLeft: "10px" }}>
+                    <CopyToClipboard text={JSON.stringify(props.value)} onCopy={onCopy} style={{ marginLeft: "10px", marginRight: "10px" }}>
                         <Button variant="outlined" size="small" color="error">copy</Button>
                     </CopyToClipboard>
+                    <Button variant="outlined" size="small" color="success" onClick={onClickDownload}>download</Button>
                 </div>
                 <a href='https://rapidapi.com/saijeevanballa-SQhbMuR2KtK/api/ai-translation-apis/details'
                     target="_blank" rel="noreferrer" style={anchorStyle}

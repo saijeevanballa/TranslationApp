@@ -95,7 +95,7 @@ NavBar.defaultProps = {
     title: "Translator",
     pages: [
         { title: 'AI Translation', url: "/AI" },
-        { title: 'File Translation', url: "/" },
+        { title: 'File Translation', url: "/file" },
         { title: 'Number Translation', url: "/Number" }],
     navStyle: {
         borderRadius: "15px",

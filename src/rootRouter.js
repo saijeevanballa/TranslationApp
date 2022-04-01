@@ -9,6 +9,7 @@ import Footer from "./components/footer/footer";
 import AiTrans from './views/AiTrans';
 import NumberTrans from './views/NumberTrans';
 import RoundLoader from './components/loader/roundLoader';
+import FileTrans from './views/FileTrans';
 
 function rootRouter(props) {
     return (
@@ -18,6 +19,7 @@ function rootRouter(props) {
                 <RoundLoader show={props.loader} />
                 <Routes>
                     <Route path="/AI" element={<AiTrans />} />
+                    <Route path="/file" element={<FileTrans />} />
                     <Route path="/Number" element={<NumberTrans />} />
                     <Route path="/" element={<Dashboard />} />
                 </Routes>

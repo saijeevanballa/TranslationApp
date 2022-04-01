@@ -1,6 +1,6 @@
 import { FETCH_API } from "../../utils/constants";
 import { BASE_URL } from "../api.middleware";
-import { TRANSLATE_AI_API, TRANSLATE_API, TRANSLATE_NUMBER_API } from "../types/api";
+import { TRANSLATE_AI_API, TRANSLATE_API, TRANSLATE_FILE_API, TRANSLATE_NUMBER_API } from "../types/api";
 
 
 
@@ -40,5 +40,19 @@ export const fetchNumberTranslateAPI = ({ data, lan }) => {
             }
         },
         api: TRANSLATE_NUMBER_API
+    }
+};
+
+export const fetchFileTranslateAPI = ({ formData }) => {
+    return {
+        [FETCH_API]: {
+            method: "POST",
+            url: `${BASE_URL}/api/v1/translate/file`,
+            headers: {
+                ...formData
+            },
+            data: formData
+        },
+        api: TRANSLATE_FILE_API
     }
 };

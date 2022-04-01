@@ -20,7 +20,6 @@ const FetchAPI = (store) => (next) => async (action) => {
             'X-RapidAPI-Key': store.getState().authentication.token,
             ...action[FETCH_API].headers
         }
-        console.log(action[FETCH_API])
         let response = await axios(action[FETCH_API])
         next({ type: `${action.api}`, data: response.data })
         return response
