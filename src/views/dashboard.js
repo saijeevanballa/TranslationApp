@@ -79,7 +79,6 @@ function Dashboard(props) {
                         <BasicModal open={resultExist.open}><Result value={resultExist.value} handleSubmit={handleCloseResult} /></BasicModal>
                         <BasicModal open={tokenExist}><Login handleSubmit={handleLoginSubmit} /></BasicModal>
                         <CardContent sx={{ minWidth: "60%" }}>
-
                             <TextArea textInput={textInput} setTextInput={setTextInput} />
                             <FormControl style={{ margin: "5px" }}>
                                 <RadioGroup
