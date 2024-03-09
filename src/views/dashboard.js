@@ -14,7 +14,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-
 import Login from './login';
 import { defaultTostStyle } from '../utils/constants';
 import { setToken } from '../store/actions/auth';
@@ -36,38 +35,27 @@ function Dashboard(props) {
       return setTokenExist(true);
     }
     if (!selectedLanguage || !textInput) {
-      return toast('Please fill all the details', {
-        type: 'error',
-        ...defaultTostStyle
-      });
+      return toast('Please fill all the details', { type: 'error', ...defaultTostStyle });
     }
-    let response = await props.fetchTranslateAPI({
-      data: textInput,
-      type: inputValue,
-      lan: selectedLanguage
-    });
+    let response = await props.fetchTranslateAPI({ data: textInput, type: inputValue, lan: selectedLanguage });
     if (response?.data) {
       setResultExist({ open: true, value: response.data.data.translated });
-      toast('Successfully Translation Done', {
-        type: 'success',
-        ...defaultTostStyle
-      });
+      toast('Successfully Translation Done', { type: 'success', ...defaultTostStyle });
     }
   };
 
-  let handleLoginSubmit = async (token) => {
-    if (!token || token.length !== 50) {
-      return toast('Enter valid Token', {
-        type: 'error',
-        ...defaultTostStyle
-      });
+  const handleLoginSubmit = async (token) => {
+    const newToken = token
+    if (!newToken || newToken.length !== 50) {
+      return toast('Enter valid Token', { type: 'error', ...defaultTostStyle });
     }
-    props.setToken(token);
+    props.setToken(newToken);
     setTokenExist(false);
   };
 
-  let handleCloseResult = async () => {
-    setResultExist({ ...resultExist, open: false });
+  const handleCloseResult = async () => {
+    let open = false
+    setResultExist({ ...resultExist, open: open });
   };
 
   return (
@@ -81,30 +69,16 @@ function Dashboard(props) {
               <CardContent sx={{ minWidth: '60%' }}>
                 <TextArea textInput={textInput} setTextInput={setTextInput} />
                 <FormControl style={{ margin: '5px' }}>
-                  <RadioGroup
-                    row
-                    aria-labelledby="demo-row-radio-buttons-group-label"
-                    name="row-radio-buttons-group"
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                  >
+                  <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group" value={inputValue} onChange={(e) => setInputValue(e.target.value)}>
                     {props.inputs.map(input => <FormControlLabel key={input} value={input} control={<Radio />} label={input.toUpperCase()} />)}
                   </RadioGroup>
                 </FormControl>
                 <FormControl fullWidth>
                   <InputLabel id="demo-simple-select-label">Language</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={selectedLanguage}
-                    label="Language"
-                    style={{ borderRadius: '15px' }}
-                    onChange={e => setSelectedLanguage(e.target.value)}
-                  >
+                  <Select labelId="demo-simple-select-label" id="demo-simple-select" value={selectedLanguage} label="Language" style={{ borderRadius: '15px' }} onChange={e => setSelectedLanguage(e.target.value)}>
                     {Languages.map(lan => (<MenuItem key={lan.code} value={lan.code}>{lan.language}</MenuItem>))}
                   </Select>
                 </FormControl>
-
               </CardContent>
               <CardActions>
                 <Button variant="outlined" size="medium" onClick={handleSubmit}>Submit</Button>
@@ -128,21 +102,9 @@ Dashboard.defaultProps = {
     alignItems: 'center',
     flexDirection: 'column',
     borderRadius: '15px',
-    boxShadow: `-15px -15px 15px rgba(255,255,255,0.2),
-                    15px 15px 15px rgba(0,0,0,0.1),
-                    inset -15px -15px 15px rgba(255,255,255,0.2),
-                    inset 15px 15px 15px rgba(0,0,0,0.1)
-                    `,
+    boxShadow: `-15px -15px 15px rgba(255,255,255,0.2), 15px 15px 15px rgba(0,0,0,0.1), inset -15px -15px 15px rgba(255,255,255,0.2), inset 15px 15px 15px rgba(0,0,0,0.1)`,
     padding: '30px'
   }
-
 };
 
-export default connect(
-  state => {
-    return { token: state.authentication.token };
-  }, {
-  setToken,
-  fetchTranslateAPI
-}
-)(Dashboard);
+export default connect(state => ({ token: state.authentication.token }), { setToken, fetchTranslateAPI })(Dashboard);
